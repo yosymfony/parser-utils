@@ -1,0 +1,26 @@
+{
+    "name": "yosymfony/parser-utils",
+    "description": "Parser utilities",
+    "type": "library",
+    "keywords": ["parser"],
+    "homepage": "http://github.com/yosymfony/toml",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Victor Puertas",
+            "email": "vpgugr@gmail.com",
+            "homepage": "http://yosymfony.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1"
+    },
+    "autoload": {
+        "psr-4": { "Yosymfony\\ParserUtils\\": "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

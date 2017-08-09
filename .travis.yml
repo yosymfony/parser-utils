@@ -1,0 +1,14 @@
+language: php
+
+php:
+  - 7.1
+  - nightly
+
+before_script:
+  - composer self-update
+  - composer install --no-interaction --no-dev
+
+matrix:
+  allow_failures:
+    - php: nightly
+  fast_finish: true
