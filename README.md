@@ -70,6 +70,19 @@ $parser = new Parser($lexer);
 $parser->parse('1 + 1');          // 2
 ```
 
+### The BasicLexer class
+
+The lexer has the responsibility of recognizing tokens. By default, this one
+normalizes newline characters: `\r\n` and `\r` to `\n` characters. The same occurs with
+tab characters: `\t` are transformed to spaces. To avoid this behaviour
+there are two method:
+
+```php
+$lexer = new BasicLexer([...]);
+$lexer->noNormalizeNewlines()
+    ->noNormalizeTabs();
+```
+
 ### The TokenStream class
 
 This class let you treat with the list of tokens returned by the lexer.
@@ -89,7 +102,7 @@ e.g: `$fs->isNextAny(['T_PLUS', 'T_SUB']) // true or false`
 * **hasPendingTokens**: Has pending tokens? e.g: `$fs->hasPendingTokens() // true or false`.
 * **reset**: Resets the stream to the beginning.
 
-### tokens
+### Tokens
 
 Tokens are instances of `Token` class, a class thant contains the following methods:
 
