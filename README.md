@@ -1,8 +1,7 @@
-<h1 align="center>Parser Utils</h1>
-<p align="center">
-    A library for writing [recursive descent parser](https://en.wikipedia.org/wiki/Recursive_descent_parser)
-    in PHP.
-</p>
+# Parser Utils
+
+A library for writing [recursive descent parser](https://en.wikipedia.org/wiki/Recursive_descent_parser)
+in PHP.
 
 ## requires
 
