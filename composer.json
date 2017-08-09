@@ -2,7 +2,7 @@
     "name": "yosymfony/parser-utils",
     "description": "Parser utilities",
     "type": "library",
-    "keywords": ["parser"],
+    "keywords": ["parser", "lexer"],
     "homepage": "http://github.com/yosymfony/toml",
     "license": "MIT",
     "authors": [
