@@ -1,7 +1,7 @@
-# Parser Utils
-
 A library for writing [recursive descent parser](https://en.wikipedia.org/wiki/Recursive_descent_parser)
 in PHP.
+
+[![Build Status](https://travis-ci.org/yosymfony/parser-utils.svg?branch=master)](https://travis-ci.org/yosymfony/parser-utils)
 
 ## requires
 
