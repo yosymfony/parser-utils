@@ -12,7 +12,7 @@ in PHP.
 The preferred installation method is [composer](https://getcomposer.org):
 
 ```bash
-php composer.phar require yosymfony/parser-utils
+composer require yosymfony/parser-utils
 ```
 
 ## An example
