@@ -62,4 +62,19 @@ class BasicLexerTest extends TestCase
 
         $this->assertCount(0, $tokens);
     }
+
+    public function testTokenizeMustReturnsNewLineTokensWhenGenerateNewlineTokenIsEnable()
+    {
+        $lexer = new BasicLexer([
+            '/^([0-9]+)/' => 'T_NUMBER',
+        ]);
+        $lexer->generateNewlineToken();
+
+        $tokens = $lexer->tokenize("\n")->getAll();
+
+        $this->assertEquals([
+            new Token("\n", 'T_INTERNAL_NEWLINE', 1),
+            new Token("\n", 'T_INTERNAL_NEWLINE', 2),
+        ], $tokens);
+    }
 }

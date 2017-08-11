@@ -11,10 +11,8 @@ namespace Yosymfony\ParserUtils;
 
 class BasicLexer implements LexerInterface
 {
-    protected $normalizeNewlines = true;
-    protected $normalizeTabs = true;
+    protected $activateNewlinToken = false;
     protected $terminals = [];
-    protected $ignoredTokens = [];
 
     /**
      * Constructor
@@ -31,25 +29,13 @@ class BasicLexer implements LexerInterface
     }
 
     /**
-     * Avoids lexer normalize CRLF to LF
+     * Generates a special "T_INTERNAL_NEWLINE" for each line of the input
      *
      * @return BasicLexer The BasicLexer itself
      */
-    public function noNormalizeNewlines() : BasicLexer
+    public function generateNewlineToken() : BasicLexer
     {
-        $this->normalizeNewlines = false;
-
-        return $this;
-    }
-
-    /**
-     * Avoids lexer normalize tabs to spaces
-     *
-     * @return BasicLexer The BasicLexer itself
-     */
-    public function noNormalizeTabs() : BasicLexer
-    {
-        $this->normalizeTabs = false;
+        $this->activateNewlinToken = true;
 
         return $this;
     }
@@ -60,23 +46,26 @@ class BasicLexer implements LexerInterface
     public function tokenize(string $input) : TokenStream
     {
         $tokens = [];
-
-        $input = $this->cleanup($input);
         $lines = explode("\n", $input);
 
         foreach ($lines as $number => $line) {
             $offset = 0;
+            $lineNumber = $number + 1;
 
             while ($offset < strlen($line)) {
-                list($name, $matches) = $this->match($line, $number, $offset);
+                list($name, $matches) = $this->match($line, $lineNumber, $offset);
 
                 if (isset($matches[1])) {
-                    $token = new Token($matches[1], $name, $number + 1);
+                    $token = new Token($matches[1], $name, $lineNumber);
                     $this->processToken($token, $matches);
                     $tokens[] = $token;
                 }
 
                 $offset += strlen($matches[0]);
+            }
+
+            if ($this->activateNewlinToken) {
+                $tokens[] = new Token("\n", 'T_INTERNAL_NEWLINE', $lineNumber);
             }
         }
 
@@ -121,31 +110,5 @@ class BasicLexer implements LexerInterface
      */
     protected function processToken(Token $token, array $matches) : void
     {
-    }
-
-    /**
-     * Normalizes the newlines and tab characters depeding on the lexer
-     * configuration
-     *
-     * @see noNormalizeNewlines() To avoid normalize newlines
-     * @see noNormalizeTabs() To avoid normalize tab characters
-     *
-     * @param string $value The text
-     *
-     * @return string
-     */
-    protected function cleanup(string $value) : string
-    {
-        $text = $value;
-
-        if ($this->normalizeNewlines) {
-            $text = str_replace(["\r\n", "\r"], "\n", $text);
-        }
-
-        if ($this->normalizeTabs) {
-            $text = str_replace("\t", " ", $text);
-        }
-
-        return $value;
     }
 }

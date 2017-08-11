@@ -72,16 +72,9 @@ $parser->parse('1 + 1');          // 2
 
 ### The BasicLexer class
 
-The lexer has the responsibility of recognizing tokens. By default, this one
-normalizes newline characters: `\r\n` and `\r` to `\n` characters. The same occurs with
-tab characters: `\t` are transformed to spaces. To avoid this behaviour
-there are two method:
-
-```php
-$lexer = new BasicLexer([...]);
-$lexer->noNormalizeNewlines()
-    ->noNormalizeTabs();
-```
+The lexer has the responsibility of recognizing tokens. This one works line by
+line. If you want to generate a special `T_INTERNAL_NEWLINE` token for each line
+of the input, run `$lexer->generateNewlineToken()` before parse.
 
 ### The TokenStream class
 
