@@ -68,13 +68,13 @@ class BasicLexerTest extends TestCase
         $lexer = new BasicLexer([
             '/^([0-9]+)/' => 'T_NUMBER',
         ]);
-        $lexer->generateNewlineToken();
+        $lexer->generateNewlineTokens();
 
-        $tokens = $lexer->tokenize("\n")->getAll();
+        $ts = $lexer->tokenize("0\n");
+        $ts->moveNext();
+        $token = $ts->moveNext();
 
-        $this->assertEquals([
-            new Token("\n", 'T_INTERNAL_NEWLINE', 1),
-            new Token("\n", 'T_INTERNAL_NEWLINE', 2),
-        ], $tokens);
+        $this->assertEquals('T_NEWLINE', $token->getName());
+        $this->assertFalse($ts->hasPendingTokens());
     }
 }

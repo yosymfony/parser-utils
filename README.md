@@ -1,6 +1,9 @@
 A library for writing [recursive descent parsers](https://en.wikipedia.org/wiki/Recursive_descent_parser)
 in PHP.
 
+**Notice:** this library is in an early stage meaning that until get an stable version
+the API could change without previous notice.
+
 [![Build Status](https://travis-ci.org/yosymfony/parser-utils.svg?branch=master)](https://travis-ci.org/yosymfony/parser-utils)
 
 ## requires
@@ -73,8 +76,17 @@ $parser->parse('1 + 1');          // 2
 ### The BasicLexer class
 
 The lexer has the responsibility of recognizing tokens. This one works line by
-line. If you want to generate a special `T_INTERNAL_NEWLINE` token for each line
-of the input, run `$lexer->generateNewlineToken()` before parse.
+line. If you want to generate a special `T_NEWLINE` token for each line
+of the input, run `$lexer->generateNewlineTokens()` before tokenizing. You can set the
+name of this special token using the method `setNewlineTokenName`.
+
+```php
+$lexer = new BasicLexer([...]);
+$lexer->generateNewlineTokens()
+    ->setNewlineTokenName('T_NL');
+
+$lexer->tokenize('...');
+```
 
 ### The TokenStream class
 

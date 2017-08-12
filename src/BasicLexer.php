@@ -11,7 +11,8 @@ namespace Yosymfony\ParserUtils;
 
 class BasicLexer implements LexerInterface
 {
-    protected $activateNewlinToken = false;
+    protected $newlineTokenName = 'T_NEWLINE';
+    protected $activateNewlineToken = false;
     protected $terminals = [];
 
     /**
@@ -29,13 +30,24 @@ class BasicLexer implements LexerInterface
     }
 
     /**
-     * Generates a special "T_INTERNAL_NEWLINE" for each line of the input
+     * Generates a special "T_NEWLINE" for each line of the input
      *
      * @return BasicLexer The BasicLexer itself
      */
-    public function generateNewlineToken() : BasicLexer
+    public function generateNewlineTokens() : BasicLexer
     {
-        $this->activateNewlinToken = true;
+        $this->activateNewlineToken = true;
+
+        return $this;
+    }
+
+    public function setNewlineTokenName(string $name) : BasicLexer
+    {
+        if (strlen($name) == 0) {
+            throw new \InvalidArgumentException('The name of the token must be not empty.');
+        }
+
+        $this->newlineTokenName = $name;
 
         return $this;
     }
@@ -45,8 +57,10 @@ class BasicLexer implements LexerInterface
      */
     public function tokenize(string $input) : TokenStream
     {
+        $counter = 0;
         $tokens = [];
         $lines = explode("\n", $input);
+        $totalLines = count($lines);
 
         foreach ($lines as $number => $line) {
             $offset = 0;
@@ -64,8 +78,8 @@ class BasicLexer implements LexerInterface
                 $offset += strlen($matches[0]);
             }
 
-            if ($this->activateNewlinToken) {
-                $tokens[] = new Token("\n", 'T_INTERNAL_NEWLINE', $lineNumber);
+            if ($this->activateNewlineToken && ++$counter < $totalLines) {
+                $tokens[] = new Token("\n", $this->newlineTokenName, $lineNumber);
             }
         }
 
