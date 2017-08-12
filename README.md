@@ -1,7 +1,7 @@
 A library for writing [recursive descent parsers](https://en.wikipedia.org/wiki/Recursive_descent_parser)
 in PHP.
 
-**Notice:** this library is in an early stage meaning that until get an stable version
+**Notice:** this library is in an early stage meaning that until gets an stable version
 the API could change without previous notice.
 
 [![Build Status](https://travis-ci.org/yosymfony/parser-utils.svg?branch=master)](https://travis-ci.org/yosymfony/parser-utils)
