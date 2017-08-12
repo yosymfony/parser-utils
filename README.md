@@ -121,7 +121,7 @@ This library requires [PHPUnit](https://phpunit.de/) >= 6.3.
 You can run the unit tests with the following command:
 
 ```bash
-$ cd parserUtils
+$ cd parser-utils
 $ phpunit
 ```
 
