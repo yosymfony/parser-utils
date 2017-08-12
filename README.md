@@ -83,7 +83,7 @@ name of this special token using the method `setNewlineTokenName`.
 ```php
 $lexer = new BasicLexer([...]);
 $lexer->generateNewlineTokens()
-    ->setNewlineTokenName('T_NL');
+      ->setNewlineTokenName('T_NL');
 
 $lexer->tokenize('...');
 ```
