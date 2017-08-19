@@ -111,6 +111,14 @@ the pointer one token forward. It will throw an `SyntaxErrorException` exception
 if the next token does not match. e.g: `$number = $ts->matchNext('T_NUMBER')`.
 * **isNext**: Checks if the next token matches with the token name passed as argument.
 e.g: `$ts->isNext('T_PLUS') // true or false`.
+* **skipWhile**: Skips tokens while they match with the token name passed
+as argument. This method moves the pointer "n" tokens forward until the
+last one that match with the token name. e.g: `$ts->skipWhile('T_PLUS')`
+* **skipWhileAny**: Skips tokens while they match with one of the token
+names passed as argument. This method moves the pointer "n" tokens
+forward until the last one that match with one of the token names
+e.g: `$ts->skipWhileAny(['T_PLUS', 'T_MINUS'])`
+
 * **isNextSequence**: Checks if the following tokens in the stream match with
 the sequence of tokens. e.g: `$ts->isNextSequence(['T_NUMBER', 'T_PLUS', 'T_NUMBER']) // true or false`.
 * **isNextAny**: Checks if one of the tokens passed as argument is the next token.
@@ -121,7 +129,7 @@ e.g: `$fs->isNextAny(['T_PLUS', 'T_SUB']) // true or false`
 
 ### Tokens
 
-Tokens are instances of `Token` class, a class thant contains the following methods:
+Tokens are instances of `Token` class, a class than contains the following methods:
 
 * **getName**: returns the name of the toke. e.g: `T_SUM`.
 * **getValue**: returns the value of the token.

@@ -226,8 +226,36 @@ class TokenStreamTest extends TestCase
         $ts = new TokenStream([
             new Token('+', 'T_PLUS', 1),
         ]);
+
         $ts->moveNext();
 
         $this->assertFalse($ts->hasPendingTokens());
+    }
+
+    public function testSkipWhileMustMovesPointerNTokensForwardUtilLastOneInstanceOfToken()
+    {
+        $ts = new TokenStream([
+            new Token('+', 'T_PLUS', 1),
+            new Token('+', 'T_PLUS', 1),
+            new Token('1', 'T_NUMBER', 1),
+        ]);
+
+        $ts->skipWhile('T_PLUS');
+
+        $this->assertTrue($ts->isNext('T_NUMBER'));
+    }
+
+    public function testSkipWhileAnyMustMovesPointerNTokensForwardUtilLastOneInstanceOfOneOfAnyTokens()
+    {
+        $ts = new TokenStream([
+            new Token('+', 'T_PLUS', 1),
+            new Token('+', 'T_PLUS', 1),
+            new Token('+', 'T_MINUS', 1),
+            new Token('1', 'T_NUMBER', 1),
+        ]);
+
+        $ts->skipWhileAny(['T_PLUS', 'T_MINUS']);
+
+        $this->assertTrue($ts->isNext('T_NUMBER'));
     }
 }

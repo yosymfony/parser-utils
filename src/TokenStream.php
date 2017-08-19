@@ -61,6 +61,32 @@ class TokenStream
     }
 
     /**
+     * Skips tokens while they match with the token name passed as argument.
+     * This method moves the pointer "n" tokens forward until the last one
+     * that match with the token name
+     *
+     * @param string $tokenName The name of the token
+     */
+    public function skipWhile(string $tokenName) : void
+    {
+        $this->skipWhileAny([$tokenName]);
+    }
+
+    /**
+     * Skips tokens while they match with one of the token names passed as
+     * argument. This method moves the pointer "n" tokens forward until the
+     * last one that match with one of the token names
+     *
+     * @param string[] $tokenNames List of token names
+     */
+    public function skipWhileAny(array $tokenNames) : void
+    {
+        while ($this->isNextAny($tokenNames)) {
+            $this->moveNext();
+        }
+    }
+
+    /**
      * Checks if the next token matches with the token name passed as argument
      *
      * @param string $tokenName The name of the token
