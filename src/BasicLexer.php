@@ -12,7 +12,9 @@ namespace Yosymfony\ParserUtils;
 class BasicLexer implements LexerInterface
 {
     protected $newlineTokenName = 'T_NEWLINE';
+    protected $eosTokenName = 'T_EOS';
     protected $activateNewlineToken = false;
+    protected $activateEOSToken = false;
     protected $terminals = [];
 
     /**
@@ -30,7 +32,7 @@ class BasicLexer implements LexerInterface
     }
 
     /**
-     * Generates a special "T_NEWLINE" for each line of the input
+     * Generates an special "T_NEWLINE" for each line of the input
      *
      * @return BasicLexer The BasicLexer itself
      */
@@ -41,13 +43,54 @@ class BasicLexer implements LexerInterface
         return $this;
     }
 
+    /**
+     * Generates an special "T_EOS" at the end of the input string
+     *
+     * @return BasicLexer The BasicLexer itself
+     */
+    public function generateEosToken() : BasicLexer
+    {
+        $this->activateEOSToken = true;
+
+        return $this;
+    }
+
+    /**
+     * Sets the name of the newline token
+     *
+     * @param string $name The name of the token
+     *
+     * @return BasicLexer The BasicLexer itself
+     *
+     * @throws InvalidArgumentException If the name is empty
+     */
     public function setNewlineTokenName(string $name) : BasicLexer
     {
         if (strlen($name) == 0) {
-            throw new \InvalidArgumentException('The name of the token must be not empty.');
+            throw new \InvalidArgumentException('The name of the newline token must be not empty.');
         }
 
         $this->newlineTokenName = $name;
+
+        return $this;
+    }
+
+    /**
+     * Sets the name of the end-of-string token
+     *
+     * @param string $name The name of the token
+     *
+     * @return BasicLexer The BasicLexer itself
+     *
+     * @throws InvalidArgumentException If the name is empty
+     */
+    public function setEosTokenName(string $name) : BasicLexer
+    {
+        if (strlen($name) == 0) {
+            throw new \InvalidArgumentException('The name of the EOS token must be not empty.');
+        }
+
+        $this->eosTokenName = $name;
 
         return $this;
     }
@@ -81,6 +124,10 @@ class BasicLexer implements LexerInterface
             if ($this->activateNewlineToken && ++$counter < $totalLines) {
                 $tokens[] = new Token("\n", $this->newlineTokenName, $lineNumber);
             }
+        }
+
+        if ($this->activateEOSToken) {
+            $tokens[] = new Token('', $this->eosTokenName, $lineNumber);
         }
 
         return new TokenStream($tokens);

@@ -63,7 +63,7 @@ class BasicLexerTest extends TestCase
         $this->assertCount(0, $tokens);
     }
 
-    public function testTokenizeMustReturnsNewLineTokensWhenGenerateNewlineTokenIsEnable()
+    public function testTokenizeMustReturnsNewLineTokensWhenGenerateNewlineTokensIsEnabled()
     {
         $lexer = new BasicLexer([
             '/^([0-9]+)/' => 'T_NUMBER',
@@ -75,6 +75,53 @@ class BasicLexerTest extends TestCase
         $token = $ts->moveNext();
 
         $this->assertEquals('T_NEWLINE', $token->getName());
+        $this->assertFalse($ts->hasPendingTokens());
+    }
+
+    public function testTokenizeMustReturnsCustomNewLineTokensWhenThereIsCustomNameAndGenerateNewlineTokensIsEnabled()
+    {
+        $lexer = new BasicLexer([
+            '/^([0-9]+)/' => 'T_NUMBER',
+        ]);
+        $lexer->setNewlineTokenName('T_MY_NEWLINE')
+          ->generateNewlineTokens();
+
+        $ts = $lexer->tokenize("0\n");
+        $ts->moveNext();
+        $token = $ts->moveNext();
+
+        $this->assertEquals('T_MY_NEWLINE', $token->getName());
+        $this->assertFalse($ts->hasPendingTokens());
+    }
+
+    public function testTokenizeMustReturnsEosTokenWhenGenerateEosTokenIsEnabled()
+    {
+        $lexer = new BasicLexer([
+            '/^([0-9]+)/' => 'T_NUMBER',
+        ]);
+        $lexer->generateEosToken();
+
+        $ts = $lexer->tokenize("0");
+        $ts->moveNext();
+        $token = $ts->moveNext();
+
+        $this->assertEquals('T_EOS', $token->getName());
+        $this->assertFalse($ts->hasPendingTokens());
+    }
+
+    public function testTokenizeMustReturnsCustomNameEosTokenWhenThereIsCustomNameAndGenerateEosTokenIsEnabled()
+    {
+        $lexer = new BasicLexer([
+            '/^([0-9]+)/' => 'T_NUMBER',
+        ]);
+        $lexer->setEosTokenName('T_MY_EOS')
+            ->generateEosToken();
+
+        $ts = $lexer->tokenize("0");
+        $ts->moveNext();
+        $token = $ts->moveNext();
+
+        $this->assertEquals('T_MY_EOS', $token->getName());
         $this->assertFalse($ts->hasPendingTokens());
     }
 }

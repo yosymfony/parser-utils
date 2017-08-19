@@ -76,14 +76,26 @@ $parser->parse('1 + 1');          // 2
 ### The BasicLexer class
 
 The lexer has the responsibility of recognizing tokens. This one works line by
-line. If you want to generate a special `T_NEWLINE` token for each line
-of the input, run `$lexer->generateNewlineTokens()` before tokenizing. You can set the
+line. If you want to generate an special `T_NEWLINE` token for each line
+of the input, call `$lexer->generateNewlineTokens()` before tokenizing. You can set the
 name of this special token using the method `setNewlineTokenName`.
 
 ```php
 $lexer = new BasicLexer([...]);
 $lexer->generateNewlineTokens()
       ->setNewlineTokenName('T_NL');
+
+$lexer->tokenize('...');
+```
+
+Additionally, there is another special token `T_EOS` that determines the end of the input
+string. To enable this feature call `$lexer->generateEosToken()` before tokenizing.
+You can set the name of this special token using the method `setEosTokenName`.
+
+```php
+$lexer = new BasicLexer([...]);
+$lexer->generateEosToken()
+      ->setEosTokenName('T_MY_EOS');
 
 $lexer->tokenize('...');
 ```
