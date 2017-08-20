@@ -123,7 +123,6 @@ e.g: `$ts->skipWhileAny(['T_PLUS', 'T_MINUS'])`
 the sequence of tokens. e.g: `$ts->isNextSequence(['T_NUMBER', 'T_PLUS', 'T_NUMBER']) // true or false`.
 * **isNextAny**: Checks if one of the tokens passed as argument is the next token.
 e.g: `$fs->isNextAny(['T_PLUS', 'T_SUB']) // true or false`
-* **getAll**: Returns all tokens. e.g: `$fs->getAll() // Token[]`.
 * **hasPendingTokens**: Has pending tokens? e.g: `$fs->hasPendingTokens() // true or false`.
 * **reset**: Resets the stream to the beginning.
 
