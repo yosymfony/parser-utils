@@ -15,7 +15,6 @@ namespace Yosymfony\ParserUtils;
 class SyntaxErrorException extends \RuntimeException
 {
     protected $token;
-    protected $rawMessage;
 
     /**
      * Constructor
@@ -26,10 +25,7 @@ class SyntaxErrorException extends \RuntimeException
      */
     public function __construct(string $message, Token $token = null, \Exception $previous = null)
     {
-        $this->rawMessage = $message;
-        $this->updateMessage();
-
-        parent::__construct($this->message, 0, $previous);
+        parent::__construct($message, 0, $previous);
     }
 
     /**
@@ -45,36 +41,10 @@ class SyntaxErrorException extends \RuntimeException
     /**
      * Returns the token associated to the exception
      *
-     * @return Token
+     * @return Token|null
      */
-    public function getToken() : Token
+    public function getToken() : ?Token
     {
         return $this->token;
-    }
-
-    /**
-     * Updates the messsage of the exception.
-     *
-     * Inspired by ParseException from Symfony Yaml component
-     *
-     * @see https://github.com/symfony/symfony/blob/master/src/Symfony/Component/Yaml/Exception/ParseException.php
-     */
-    protected function updateMessage() : void
-    {
-        $dot = false;
-        $this->message = $this->rawMessage;
-
-        if ('.' === substr($this->message, -1)) {
-            $this->message = substr($this->message, 0, -1);
-            $dot = true;
-        }
-
-        if ($this->token) {
-            $this->message .= sprintf(" token: %s", $this->token);
-        }
-
-        if ($dot) {
-            $this->message .= '.';
-        }
     }
 }
