@@ -9,7 +9,7 @@
  */
 namespace Yosymfony\ParserUtils;
 
-class TokenStream
+class TokenStream implements TokenStreamInterface
 {
     protected $tokens;
     protected $index = -1;
@@ -25,9 +25,7 @@ class TokenStream
     }
 
     /**
-     * Moves the pointer one token forward
-     *
-     * @return Token|null The token or null if there are not more tokens
+     * {@inheritdoc}
      */
     public function moveNext() : ?Token
     {
@@ -35,14 +33,7 @@ class TokenStream
     }
 
     /**
-     * Matches the next token. This method moves the pointer one token forward
-     * if an error does not occur
-     *
-     * @param string $tokenName The name of the token
-     *
-     * @return string The value of the token
-     *
-     * @throws SyntaxErrorException If the next token does not match
+     * {@inheritdoc}
      */
     public function matchNext(string $tokenName) : string
     {
@@ -57,15 +48,12 @@ class TokenStream
             'Syntax error: expected token with name "%s" instead of "%s" at line %s.',
             $tokenName,
             $token->getName(),
-            $token->getLine()));
+            $token->getLine()
+        ));
     }
 
     /**
-     * Skips tokens while they match with the token name passed as argument.
-     * This method moves the pointer "n" tokens forward until the last one
-     * that match with the token name
-     *
-     * @param string $tokenName The name of the token
+     * {@inheritdoc}
      */
     public function skipWhile(string $tokenName) : void
     {
@@ -73,11 +61,7 @@ class TokenStream
     }
 
     /**
-     * Skips tokens while they match with one of the token names passed as
-     * argument. This method moves the pointer "n" tokens forward until the
-     * last one that match with one of the token names
-     *
-     * @param string[] $tokenNames List of token names
+     * {@inheritdoc}
      */
     public function skipWhileAny(array $tokenNames) : void
     {
@@ -87,11 +71,7 @@ class TokenStream
     }
 
     /**
-     * Checks if the next token matches with the token name passed as argument
-     *
-     * @param string $tokenName The name of the token
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isNext(string $tokenName) : bool
     {
@@ -106,11 +86,7 @@ class TokenStream
     }
 
     /**
-     * Checks if the following tokens in the stream match with the sequence of tokens
-     *
-     * @param string[] $tokenNames Sequence of token names
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isNextSequence(array $tokenNames) : bool
     {
@@ -133,11 +109,7 @@ class TokenStream
     }
 
     /**
-     * Checks if one of the tokens passed as argument is the next token
-     *
-     * @param string[] $tokenNames List of token names. e.g: 'T_PLUS', 'T_SUB'
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isNextAny(array $tokenNames) : bool
     {
@@ -168,9 +140,7 @@ class TokenStream
     }
 
     /**
-     * Has pending tokens?
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function hasPendingTokens() :bool
     {
@@ -184,7 +154,7 @@ class TokenStream
     }
 
     /**
-     * Resets the stream to the beginning
+     * {@inheritdoc}
      */
     public function reset() : void
     {
