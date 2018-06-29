@@ -32,7 +32,7 @@ $lexer = new BasicLexer([
 ```
 
 Second, you need a parser for consuming the tokens provided by the lexer.
-The `AbstractParser` class contains an abstract method called `parseImplentation`
+The `AbstractParser` class contains an abstract method called `parseImplementation`
 that receives a `TokenStream` as an argument.
 
 ```php
@@ -40,7 +40,7 @@ use Yosymfony\ParserUtils\AbstractParser;
 
 class Parser extends AbstractParser
 {
-    protected function parseImplentation(TokenStream $stream)
+    protected function parseImplementation(TokenStream $stream)
     {
         $result = $stream->matchNext('T_NUMBER');
 
@@ -133,12 +133,11 @@ Tokens are instances of `Token` class, a class than contains the following metho
 
 ## Unit tests
 
-This library requires [PHPUnit](https://phpunit.de/) >= 6.3.
 You can run the unit tests with the following command:
 
 ```bash
 $ cd parser-utils
-$ phpunit
+$ composer test
 ```
 
 ## License

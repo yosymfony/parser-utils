@@ -33,7 +33,7 @@ abstract class AbstractParser
     public function parse(string $input)
     {
         $ts = $this->lexer->tokenize($input);
-        $parseResult = $this->parseImplentation($ts);
+        $parseResult = $this->parseImplementation($ts);
 
         if ($ts->hasPendingTokens()) {
             throw new SyntaxErrorException('There are tokens not processed.');
@@ -49,5 +49,5 @@ abstract class AbstractParser
      *
      * @return mixed
      */
-    abstract protected function parseImplentation(TokenStream $stream);
+    abstract protected function parseImplementation(TokenStream $stream);
 }

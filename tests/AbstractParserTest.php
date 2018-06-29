@@ -33,7 +33,7 @@ class AbstractParserTest extends TestCase
             ->setConstructorArgs([$lexer])
             ->getMockForAbstractClass();
         $this->parser->expects($this->any())
-            ->method('parseImplentation')
+            ->method('parseImplementation')
             ->will($this->returnCallback(function (TokenStream $stream) {
                 $result = $stream->matchNext('T_NUMBER');
 
